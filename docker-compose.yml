@@ -1,0 +1,40 @@
+version: "3.7"
+
+x-default-envvars: &default-envvars
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  SELENIUM_REMOTE_HOST: "selenium-hub"
+  RABBITMQ_HOST: rabbit
+  RABBITMQ_PORT: 5672
+  RABBITMQ_DEFAULT_USER: admin
+  RABBITMQ_DEFAULT_PASS: mypass
+  DJANGO_SETTINGS_MODULE: settings.develop
+
+x-default-app: &default-app
+  build:
+    .
+  volumes:
+    - ./src:/app
+  environment:
+    <<: *default-envvars
+
+
+services:
+  app:
+    <<: *default-app
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  db:
+    image: mariadb:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      -   django-starter-db:/var/lib/postgresql/data
+    environment:
+      - MYSQL_DATABASE=django-starter
+      - MYSQL_ROOT_PASSWORD=secret
+
+volumes:
+  django-starter-db:
