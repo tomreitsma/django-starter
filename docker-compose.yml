@@ -28,7 +28,7 @@ services:
   db:
     image: postgres
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - django-starter-db:${DB_DATA}
     environment:
