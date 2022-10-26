@@ -2,21 +2,15 @@ version: "3.7"
 
 x-default-envvars: &default-envvars
   DB_HOST: ${DB_HOST}
+  DB_PORT: ${DB_PORT}
   DB_NAME: ${DB_NAME}
+  DB_USER: ${DB_USER}
   DB_PASS: ${DB_PASS}
   DJANGO_SETTINGS_MODULE: settings.develop
-
-x-default-dbvars: &default-dbvars
-  <<: *default-envvars
-  MYSQL_DATABASE: ${DB_NAME}
-  MYSQL_ROOT_PASSWORD: ${DB_PASS}
 
 x-default-app: &default-app
   build:
     .
-  volumes:
-    - ./src:/app
-    - .env:/app/.env
   environment:
     <<: *default-envvars
 
@@ -27,15 +21,21 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+    depends_on:
+      - db
+      - redis
 
   db:
-    image: mariadb:latest
+    image: postgres
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - django-starter-db:/var/lib/postgresql/data
+      - django-starter-db:${DB_DATA}
     environment:
-      <<: *default-dbvars
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: ${DB_DATA}
 
   redis:
     image: redis:latest
