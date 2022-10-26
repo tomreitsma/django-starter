@@ -1,15 +1,16 @@
 FROM python:3.10
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-RUN mkdir /app
 WORKDIR /app
+COPY .env ./.env
 
-RUN echo "wut"
+COPY requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt
 
-COPY requirements.txt /src/requirements.txt
-RUN pip install -r /src/requirements.txt
+COPY scripts/ /
+RUN chmod +x /docker-entrypoint.sh /wait-for-it.sh
 
-ADD src/ /app
 
-RUN chmod +x /app/docker/entrypoint.sh
+CMD ["bash", "/docker-entrypoint.sh"]
 
-CMD ["bash", "/app/docker/entrypoint.sh"]
