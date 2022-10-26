@@ -3,15 +3,14 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+COPY .env ./.env
 
-COPY .env /app/.env
-COPY scripts/docker-entrypoint.sh /app/docker-entrypoint.sh
-COPY scripts/wait-for-it.sh /app/wait-for-it.sh
-RUN chmod +x /app/docker-entrypoint.sh /app/wait-for-it.sh
+COPY requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt
 
-ADD src/ /app
+COPY scripts/ /
+RUN chmod +x /docker-entrypoint.sh /wait-for-it.sh
 
-CMD ["bash", "/app/docker-entrypoint.sh"]
+
+CMD ["bash", "/docker-entrypoint.sh"]
 

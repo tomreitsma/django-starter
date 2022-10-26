@@ -3,7 +3,7 @@
 set -e
 
 if [ -n "$DB_HOST" ]; then
-  ./wait-for-it.sh "$DB_HOST:$DB_PORT"
+  /wait-for-it.sh "$DB_HOST:$DB_PORT"
 fi
 
 python manage.py migrate

@@ -11,6 +11,8 @@ x-default-envvars: &default-envvars
 x-default-app: &default-app
   build:
     .
+  volumes:
+    - ./src:/app
   environment:
     <<: *default-envvars
 
@@ -44,3 +46,5 @@ services:
 
 volumes:
   django-starter-db:
+  app:
+  
