@@ -9,6 +9,10 @@ Simple starter skeleton for quickly getting a new Django project off the ground.
 
 ## Getting started
 
+Copy `.env.example` to `.env` and set the environment variables.
+
+Then run:
+
 ```bash
 $ docker-compose build
 $ docker-compose up
@@ -16,5 +20,5 @@ $ docker-compose up
 
 ### Create superuser
 ```bash
-$ docker exec -it django-starter-app-1 python ./manage.py createsuperuser
+$ docker-compose run --rm app python ./manage.py createsuperuser
 ```
