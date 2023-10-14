@@ -5,7 +5,8 @@ from decouple import config
 from settings import *
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'localhost',
 ]
 
 DATABASES = {
