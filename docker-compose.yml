@@ -46,7 +46,7 @@ services:
       - redis
 
   db:
-    image: postgres
+    image: postgres:latest
     ports:
       - "${DB_PORT}:${DB_PORT}"
     volumes:
